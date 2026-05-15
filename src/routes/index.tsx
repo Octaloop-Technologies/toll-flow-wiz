@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import octaloopLogo from "@/assets/octaloop-logo.png";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -91,12 +92,15 @@ function Index() {
           style={{ background: "var(--gradient-hero)" }}
           aria-hidden
         />
-        <div className="relative mx-auto max-w-7xl px-6 pt-24 pb-20">
-          <div className="flex items-center gap-2">
-            <span className="inline-flex h-2 w-2 rounded-full bg-[color:var(--color-success)] animate-pulse" />
-            <Badge variant="outline" className="font-mono uppercase tracking-wider text-xs">
-              ETTM Platform · v2.0
-            </Badge>
+        <div className="relative mx-auto max-w-7xl px-6 pt-12 pb-20">
+          <div className="flex items-center justify-between mb-12">
+            <img src={octaloopLogo} alt="Octaloop" className="h-10 w-auto brightness-0 invert opacity-90" />
+            <div className="flex items-center gap-2">
+              <span className="inline-flex h-2 w-2 rounded-full bg-[color:var(--color-success)] animate-pulse" />
+              <Badge variant="outline" className="font-mono uppercase tracking-wider text-xs">
+                ETTM Platform · v2.0
+              </Badge>
+            </div>
           </div>
           <h1 className="mt-6 max-w-4xl text-5xl md:text-6xl font-semibold leading-[1.05]">
             Flow diagrams for the{" "}
@@ -217,8 +221,11 @@ function Index() {
 
       <footer className="border-t border-border">
         <div className="mx-auto max-w-7xl px-6 py-10 flex items-center justify-between flex-wrap gap-4">
-          <div className="text-sm text-muted-foreground">
-            ETTM Platform · Smarter highways · Seamless tolling · Safer journeys
+          <div className="flex items-center gap-4">
+            <img src={octaloopLogo} alt="Octaloop" className="h-7 w-auto brightness-0 invert opacity-80" />
+            <div className="text-sm text-muted-foreground hidden md:block">
+              ETTM Platform · Smarter highways · Seamless tolling
+            </div>
           </div>
           <div className="text-xs font-mono text-muted-foreground">© Octaloop · Dubai, UAE</div>
         </div>
