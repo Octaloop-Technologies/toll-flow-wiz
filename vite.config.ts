@@ -2,6 +2,9 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
   vite: {
+    define: {
+      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV || "production"),
+    },
     server: {
       allowedHosts: [
         "e-tolling.com",
