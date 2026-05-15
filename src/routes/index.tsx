@@ -227,6 +227,17 @@ function Index() {
   );
 }
 
+function DiagramFallback({ h }: { h: number }) {
+  return (
+    <div
+      className="surface-card rounded-2xl flex items-center justify-center text-xs font-mono text-muted-foreground"
+      style={{ height: h }}
+    >
+      Loading topology…
+    </div>
+  );
+}
+
 function Legend() {
   const items = [
     { label: "Primary path", color: "var(--color-primary)" },
