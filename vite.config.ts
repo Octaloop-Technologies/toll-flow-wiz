@@ -1,7 +1,9 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { nodePolyfills } from "vite-plugin-node-polyfills";
 
 export default defineConfig({
   vite: {
+    plugins: [nodePolyfills()],
     server: {
       allowedHosts: [
         "e-tolling.com",
