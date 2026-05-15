@@ -8,5 +8,5 @@ RUN npm run build
 FROM node:20-alpine AS runner
 WORKDIR /app
 COPY --from=builder /app/.output ./.output
-EXPOSE 3000
+EXPOSE 8080
 CMD ["node", ".output/server/index.mjs"]
