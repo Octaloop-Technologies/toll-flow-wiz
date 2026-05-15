@@ -1,12 +1,13 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
-RUN npm install          # ← was "npm ci"
+RUN npm ci
 COPY . .
 RUN npm run build
 
 FROM node:20-alpine AS runner
 WORKDIR /app
-COPY --from=builder /app/.output ./.output
+RUN npm install -g serve
+COPY --from=builder /app/dist/client ./dist/client
 EXPOSE 8080
-CMD ["node", ".output/server/index.mjs"]
+CMD ["serve", "-s", "dist/client", "-l", "8080"]
