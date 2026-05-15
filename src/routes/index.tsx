@@ -18,6 +18,7 @@ import { VehicleJourneyDiagram } from "@/components/diagrams/VehicleJourneyDiagr
 import { ArchitectureDiagram } from "@/components/diagrams/ArchitectureDiagram";
 import { EnforcementDiagram } from "@/components/diagrams/EnforcementDiagram";
 import { PaymentDiagram } from "@/components/diagrams/PaymentDiagram";
+import { ClientOnly } from "@/components/ClientOnly";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -48,7 +49,7 @@ const diagrams = [
     title: "Vehicle Journey Flow",
     description:
       "End-to-end transaction — from lane entry to dashboard update — typically completed in under 200 ms.",
-    component: <VehicleJourneyDiagram />,
+    component: <ClientOnly fallback={<DiagramFallback h={560} />}><VehicleJourneyDiagram /></ClientOnly>,
   },
   {
     id: "architecture",
@@ -57,7 +58,7 @@ const diagrams = [
     title: "Five-Layer Platform Architecture",
     description:
       "From field sensors to operator command centre — interoperable, horizontally scalable, secure by design.",
-    component: <ArchitectureDiagram />,
+    component: <ClientOnly fallback={<DiagramFallback h={700} />}><ArchitectureDiagram /></ClientOnly>,
   },
   {
     id: "payment",
@@ -66,7 +67,7 @@ const diagrams = [
     title: "Charging & Payment Flow",
     description:
       "Tariff engine routes transactions through prepaid wallets or open payments, settled via PCI-DSS gateway.",
-    component: <PaymentDiagram />,
+    component: <ClientOnly fallback={<DiagramFallback h={520} />}><PaymentDiagram /></ClientOnly>,
   },
   {
     id: "enforcement",
@@ -75,7 +76,7 @@ const diagrams = [
     title: "Violation & Enforcement Workflow",
     description:
       "Detection through evidence capture, adjudication and e-challan issuance — with operator review for low-confidence cases.",
-    component: <EnforcementDiagram />,
+    component: <ClientOnly fallback={<DiagramFallback h={520} />}><EnforcementDiagram /></ClientOnly>,
   },
 ];
 
@@ -223,6 +224,17 @@ function Index() {
         </div>
       </footer>
     </main>
+  );
+}
+
+function DiagramFallback({ h }: { h: number }) {
+  return (
+    <div
+      className="surface-card rounded-2xl flex items-center justify-center text-xs font-mono text-muted-foreground"
+      style={{ height: h }}
+    >
+      Loading topology…
+    </div>
   );
 }
 
