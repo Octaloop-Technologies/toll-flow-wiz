@@ -14,9 +14,6 @@ export default defineConfig({
         "stream-browserify/web": "node:stream/web",
       },
     },
-    define: {
-      "process.env.NODE_ENV": JSON.stringify("production"),
-    },
     server: {
       allowedHosts: [
         "e-tolling.com",

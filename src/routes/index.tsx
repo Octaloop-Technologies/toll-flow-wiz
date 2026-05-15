@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import octaloopLogo from "@/assets/octaloop-logo.png";
+import eTollingLogo from "@/assets/e-tolling-logo.png";
+import eTollingIcon from "@/assets/e-tolling-icon.png";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,21 +16,18 @@ import {
   Workflow,
   Zap,
 } from "lucide-react";
-import { VehicleJourneyDiagram } from "@/components/diagrams/VehicleJourneyDiagram";
-import { ArchitectureDiagram } from "@/components/diagrams/ArchitectureDiagram";
-import { EnforcementDiagram } from "@/components/diagrams/EnforcementDiagram";
-import { PaymentDiagram } from "@/components/diagrams/PaymentDiagram";
+import { DiagramLoader, type DiagramId } from "@/components/diagrams/DiagramLoader";
 import { ClientOnly } from "@/components/ClientOnly";
 
 export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "ETTM Tolling System — Flow Diagrams & Architecture" },
+      { title: "E-tolling — Flow Diagrams & Architecture" },
       {
         name: "description",
         content:
-          "Professional flow diagrams for the Electronic Toll & Traffic Management (ETTM) platform — vehicle journey, system architecture, payments and enforcement workflows.",
+          "Professional flow diagrams for the E-tolling platform — vehicle journey, system architecture, payments and enforcement workflows.",
       },
     ],
   }),
@@ -42,7 +40,14 @@ const metrics = [
   { value: "60%", label: "Faster lane throughput", icon: Workflow },
 ];
 
-const diagrams = [
+const diagrams: {
+  id: DiagramId;
+  label: string;
+  icon: typeof Radio;
+  title: string;
+  description: string;
+  height: number;
+}[] = [
   {
     id: "journey",
     label: "Vehicle Journey",
@@ -50,7 +55,7 @@ const diagrams = [
     title: "Vehicle Journey Flow",
     description:
       "End-to-end transaction — from lane entry to dashboard update — typically completed in under 200 ms.",
-    component: <ClientOnly fallback={<DiagramFallback h={560} />}><VehicleJourneyDiagram /></ClientOnly>,
+    height: 560,
   },
   {
     id: "architecture",
@@ -59,7 +64,7 @@ const diagrams = [
     title: "Five-Layer Platform Architecture",
     description:
       "From field sensors to operator command centre — interoperable, horizontally scalable, secure by design.",
-    component: <ClientOnly fallback={<DiagramFallback h={700} />}><ArchitectureDiagram /></ClientOnly>,
+    height: 700,
   },
   {
     id: "payment",
@@ -68,7 +73,7 @@ const diagrams = [
     title: "Charging & Payment Flow",
     description:
       "Tariff engine routes transactions through prepaid wallets or open payments, settled via PCI-DSS gateway.",
-    component: <ClientOnly fallback={<DiagramFallback h={520} />}><PaymentDiagram /></ClientOnly>,
+    height: 520,
   },
   {
     id: "enforcement",
@@ -77,7 +82,7 @@ const diagrams = [
     title: "Violation & Enforcement Workflow",
     description:
       "Detection through evidence capture, adjudication and e-challan issuance — with operator review for low-confidence cases.",
-    component: <ClientOnly fallback={<DiagramFallback h={520} />}><EnforcementDiagram /></ClientOnly>,
+    height: 520,
   },
 ];
 
@@ -85,8 +90,8 @@ function Index() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-border">
-        <div className="absolute inset-0 bg-grid opacity-40" aria-hidden />
+      <section className="relative overflow-hidden border-b border-border bg-card/40">
+        <div className="absolute inset-0 bg-grid opacity-30" aria-hidden />
         <div
           className="absolute inset-0"
           style={{ background: "var(--gradient-hero)" }}
@@ -94,17 +99,19 @@ function Index() {
         />
         <div className="relative mx-auto max-w-7xl px-6 pt-12 pb-20">
           <div className="flex items-center justify-between mb-12">
-            <img src={octaloopLogo} alt="Octaloop" className="h-10 w-auto brightness-0 invert opacity-90" />
+            <div className="logo-brand px-5 py-3 md:px-6 md:py-3.5">
+              <img src={eTollingLogo} alt="E-tolling" />
+            </div>
             <div className="flex items-center gap-2">
               <span className="inline-flex h-2 w-2 rounded-full bg-[color:var(--color-success)] animate-pulse" />
               <Badge variant="outline" className="font-mono uppercase tracking-wider text-xs">
-                ETTM Platform · v2.0
+                E-tolling
               </Badge>
             </div>
           </div>
           <h1 className="mt-6 max-w-4xl text-5xl md:text-6xl font-semibold leading-[1.05]">
-            Flow diagrams for the{" "}
-            <span className="text-gradient">Electronic Toll &amp; Traffic Management</span> system.
+            Flow diagrams for{" "}
+            <span className="text-gradient">E-tolling</span>.
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-muted-foreground leading-relaxed">
             Detect · Charge · Monitor · Enforce · Command. A unified motorway tolling platform
@@ -176,7 +183,9 @@ function Index() {
                   LIVE TOPOLOGY
                 </div>
               </div>
-              {d.component}
+              <ClientOnly fallback={<DiagramFallback h={d.height} />}>
+                <DiagramLoader id={d.id} fallback={<DiagramFallback h={d.height} />} />
+              </ClientOnly>
               <Legend />
             </TabsContent>
           ))}
@@ -184,7 +193,7 @@ function Index() {
       </section>
 
       {/* Modules grid */}
-      <section className="border-t border-border bg-card/30">
+      <section className="border-t border-border bg-muted/50">
         <div className="mx-auto max-w-7xl px-6 py-24">
           <Badge variant="outline" className="font-mono uppercase tracking-wider text-xs mb-3">
             Platform Overview
@@ -222,12 +231,14 @@ function Index() {
       <footer className="border-t border-border">
         <div className="mx-auto max-w-7xl px-6 py-10 flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center gap-4">
-            <img src={octaloopLogo} alt="Octaloop" className="h-7 w-auto brightness-0 invert opacity-80" />
+            <div className="logo-brand logo-brand--footer px-3 py-2">
+              <img src={eTollingIcon} alt="E-tolling" />
+            </div>
             <div className="text-sm text-muted-foreground hidden md:block">
-              ETTM Platform · Smarter highways · Seamless tolling
+              E-tolling · Smarter highways · Seamless tolling
             </div>
           </div>
-          <div className="text-xs font-mono text-muted-foreground">© Octaloop · Dubai, UAE</div>
+          <div className="text-xs font-mono text-muted-foreground">© E-tolling</div>
         </div>
       </footer>
     </main>

@@ -46,7 +46,7 @@ export function PaymentDiagram() {
         nodesConnectable={false}
         proOptions={{ hideAttribution: true }}
       >
-        <Background gap={24} size={1} color="oklch(0.3 0.03 250 / 0.5)" />
+        <Background gap={24} size={1} color="var(--diagram-dot)" />
         <Controls showInteractive={false} />
       </ReactFlow>
     </div>
